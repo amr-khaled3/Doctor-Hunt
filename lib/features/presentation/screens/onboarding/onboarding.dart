@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../core/widgets/Custom_btn.dart';
 import '../../controller/onboarding/onboarding_cubit.dart';
 
 class Onboarding extends StatelessWidget {
@@ -110,27 +111,16 @@ class Onboarding extends StatelessWidget {
                                     SizedBox(
                                       width: double.infinity,
                                       height: size.height * 0.065,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.primaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () {
+                                      child: CustomBtn(
+                                        title:
+                                            cubit.pageViewIndex ==
+                                                cubit.onboardingData.length - 1
+                                            ? "Get Started"
+                                            : "Next",
+                                        onPress: () {
                                           cubit.getNextCard(context);
                                         },
-                                        child: Text(
-                                          "Next",
-                                          style: GoogleFonts.rubik(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: size.width * 0.045,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        textSize: size.width * 0.045,
                                       ),
                                     ),
 
@@ -146,7 +136,6 @@ class Onboarding extends StatelessWidget {
                                           fontSize: size.width * 0.035,
                                           fontWeight: FontWeight.w400,
                                         ),
-
                                       ),
                                     ),
                                   ],

@@ -1,8 +1,10 @@
 import 'package:doctor_hunt/core/router/app_route_name.dart';
 import 'package:doctor_hunt/features/presentation/screens/onboarding/onboarding.dart';
+import 'package:doctor_hunt/features/presentation/screens/role/role.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/presentation/screens/auth/login.dart';
 import '../../features/presentation/screens/splash/splash_screen.dart';
 
 class NotFound extends StatelessWidget {
@@ -19,7 +21,7 @@ class RouteGen {
     switch (settings.name) {
       case RouteName.splash:
         return PageRouteBuilder(
-          transitionDuration: Duration(seconds: 1),
+          transitionDuration: Duration(seconds: 2),
           pageBuilder: (context, animation, secondaryAnimation) {
             return SplashScreen();
           },
@@ -29,6 +31,20 @@ class RouteGen {
           pageBuilder: (context, animation, secondaryAnimation) {
             return Onboarding();
           },
+        );
+      case RouteName.role:
+        return PageRouteBuilder(
+            transitionDuration: Duration(seconds: 2),
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return Role();
+            }
+        );
+      case RouteName.login:
+        return PageRouteBuilder(
+            transitionDuration: Duration(seconds: 2),
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return Login();
+            }
         );
       default:
         return PageRouteBuilder(

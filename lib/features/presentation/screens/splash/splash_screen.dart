@@ -23,20 +23,27 @@ class SplashScreen extends StatelessWidget {
           children: [
             FadeInDownBig(
               duration: Duration(milliseconds: 1500),
-                child: Image.asset("assets/logos/app_logo.png")),
+              child: Hero(
+                tag: 'logo',
+                child: Image.asset("assets/logos/app_logo.png"),
+              ),
+            ),
             SizedBox(height: 11),
             FadeInUpBig(
               duration: Duration(milliseconds: 1500),
               child: Center(
-                child: Text(
-                  "Doctor Hunt",
-                  style: GoogleFonts.rubik(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
+                child: Hero(
+                  tag: 'title',
+                  child: Text(
+                    "Doctor Hunt",
+                    style: GoogleFonts.rubik(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
-              onFinish: (direction){
+              onFinish: (direction) {
                 Navigator.pushReplacementNamed(context, RouteName.onboarding);
               },
             ),
