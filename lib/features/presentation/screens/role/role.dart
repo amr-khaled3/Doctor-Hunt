@@ -251,18 +251,14 @@ class _RoleState extends State<Role> {
 
                 const Spacer(flex: 2),
 
-                SizedBox(
-                  width: double.infinity,
-                  height: size.height * 0.065,
-                  child: CustomBtn(
-                    title: "Continue",
-                    textSize: size.width * 0.045,
-                    onPress: selectedRole == null
-                        ? null
-                        : () {
-                      Navigator.pushReplacementNamed(context, RouteName.login);
-                    },
-                  ),
+                CustomBtn(
+                  title: "Continue",
+                  textSize: size.width * 0.045,
+                  onPress: selectedRole == null
+                      ? null
+                      : () {
+                    Navigator.pushReplacementNamed(context, RouteName.login);
+                  },
                 ),
 
                 const Spacer(),

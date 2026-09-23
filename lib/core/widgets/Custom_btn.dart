@@ -27,12 +27,17 @@ class CustomBtn extends StatelessWidget {
         ),
       ),
       onPressed: onPress,
-      child: Text(
-        title,
-        style: GoogleFonts.rubik(
-          fontWeight: FontWeight.w500,
-          fontSize: textSize,
-          color: Colors.white,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          child: Text(
+            title,
+            style: GoogleFonts.rubik(
+              fontWeight: FontWeight.w500,
+              fontSize: textSize,
+              color: Colors.white,
+            ),
+          ),
         ),
       ),
     );
