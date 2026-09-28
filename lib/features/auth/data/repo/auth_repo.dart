@@ -34,6 +34,26 @@ class AuthRepo {
     }
   }
 
+  Future<Map<String, dynamic>> signInWithGoogle() async {
+    try {
+      final user = await _authService.signInWithGoogle();
+
+      if (user != null) {
+        final userModel = UserModel(
+          uid: user.user!.uid,
+          name: user.user!.displayName ?? '',
+          email: user.user!.email ?? '',
+        );
+        return {'success': true, 'user': "Welcome ${userModel.name}"};
+      }
+      return {'success': false, 'message': 'Something wrong, please try again'};
+    } on FirebaseAuthException catch (e) {
+      return {'success': false, 'message': 'Something wrong, please try again'};
+    } catch (e) {
+      return {'success': false, 'message': 'Something wrong, please try again' };
+    }
+  }
+
 
   Future<Map<String, dynamic>> login({
     required String email,
@@ -63,6 +83,21 @@ class AuthRepo {
       return {'success': false, 'message': e.toString()};
     }
   }
+  Future<Map<String, dynamic>> sendPasswordResetEmail({
+    required String email,
+  }) async {
+    try {
+      await _authService.sendPasswordResetEmail(email: email);
+      return {
+        'success': true,
+        'message': 'Reset link sent. Check your email.',
+      };
+    } on FirebaseAuthException catch (e) {
+      return {'success': false, 'message': _mapError(e.code)};
+    } catch (e) {
+      return {'success': false, 'message': 'Something wrong, please try again'};
+    }
+  }
 
 
 
@@ -78,6 +113,10 @@ class AuthRepo {
         return 'User not found';
       case 'wrong-password':
         return 'Wrong Password';
+      case 'network-request-failed':
+        return 'No internet connection';
+      case 'too-many-requests':
+        return 'Too many attempts, try again later';
       default:
         return 'Something wrong, please try again';
     }

@@ -3,4 +3,5 @@ class RouteName{
   static const String onboarding = "onboarding";
   static const String role = "role";
   static const String login = "login";
+  static const String register = "register";
 }

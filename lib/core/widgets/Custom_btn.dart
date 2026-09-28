@@ -8,37 +8,55 @@ class CustomBtn extends StatelessWidget {
   final String title;
   final void Function()? onPress;
   final double textSize;
-  const CustomBtn({super.key, required this.title, this.onPress, required this.textSize});
-
+  final bool isLoading;
+  const CustomBtn({
+    super.key,
+    required this.title,
+    this.onPress,
+    required this.textSize,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-
       style: ElevatedButton.styleFrom(
-
         enableFeedback: false,
-        backgroundColor:
-        AppColors.primaryColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(
-            10,
-          ),
-        ),
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       onPressed: onPress,
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          child: Text(
-            title,
-            style: GoogleFonts.rubik(
-              fontWeight: FontWeight.w500,
-              fontSize: textSize,
-              color: Colors.white,
-            ),
-          ),
+      child: AnimatedCrossFade(
+        firstChild: isLoading
+            ? Text(
+                title,
+                style: GoogleFonts.rubik(
+                  fontWeight: FontWeight.w500,
+                  fontSize: textSize,
+                  color: Colors.white,
+                ),
+              )
+            : Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  child: Text(
+                    title,
+                    style: GoogleFonts.rubik(
+                      fontWeight: FontWeight.w500,
+                      fontSize: textSize,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+        secondChild: SizedBox(
+          width: 60,
+          child: CupertinoActivityIndicator(color: CupertinoColors.white),
         ),
+        duration: Duration(milliseconds: 100),
+        crossFadeState: isLoading
+            ? CrossFadeState.showSecond
+            : CrossFadeState.showFirst,
       ),
     );
   }

@@ -1,19 +1,122 @@
 import 'package:doctor_hunt/core/router/route_gen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'firebase_options.dart';
 
-void main() async{
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await setupFlutterNotifications();
+  showFlutterNotification(message);
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  print('Handling a background message ${message.messageId}');
+}
+
+/// Create a [AndroidNotificationChannel] for heads up notifications
+late AndroidNotificationChannel channel;
+
+bool isFlutterLocalNotificationsInitialized = false;
+
+Future<void> setupFlutterNotifications() async {
+  if (isFlutterLocalNotificationsInitialized) {
+    return;
+  }
+  channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+  );
+
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  /// Create an Android Notification Channel.
+  ///
+  /// We use this channel in the `AndroidManifest.xml` file to override the
+  /// default FCM channel to enable heads up notifications.
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin
+      >()
+      ?.createNotificationChannel(channel);
+
+  /// Update the iOS foreground notification presentation options to allow
+  /// heads up notifications.
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  isFlutterLocalNotificationsInitialized = true;
+}
+
+void showFlutterNotification(RemoteMessage message) {
+  print('foreground message received: ${message.messageId}');
+  RemoteNotification? notification = message.notification;
+  AndroidNotification? android = message.notification?.android;
+  if (notification != null && android != null) {
+    flutterLocalNotificationsPlugin.show(
+      id: notification.hashCode,
+      title: notification.title,
+      body: notification.body,
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          // TODO add a proper drawable resource to android, for now using
+          //      one that already exists in example app.
+          icon: 'launch_background',
+        ),
+      ),
+    );
+  }
+}
+
+/// Initialize the [FlutterLocalNotificationsPlugin] package.
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await setupFlutterNotifications();
+  var per = await Permission.notification.isDenied;
+  if(per){
+    await Permission.notification.request();
+  }
+
+  // String? token = await FirebaseMessaging.instance.getToken();
+  // print(token);
+
+  await GoogleSignIn.instance.initialize(
+    serverClientId:
+        '732956198356-jusovl2v1h9sfpp8gl0e3kr3ijuivbvi.apps.googleusercontent.com',
   );
   runApp(const DoctorHunt());
 }
 
-class DoctorHunt extends StatelessWidget {
+class DoctorHunt extends StatefulWidget {
   const DoctorHunt({super.key});
+
+  @override
+  State<DoctorHunt> createState() => _DoctorHuntState();
+}
+
+class _DoctorHuntState extends State<DoctorHunt> {
+  @override
+  void initState() {
+    FirebaseMessaging.onMessage.listen(showFlutterNotification);
+    super.initState();
+  }
 
   // This widget is the root of your application.
   @override
@@ -24,4 +127,3 @@ class DoctorHunt extends StatelessWidget {
     );
   }
 }
-

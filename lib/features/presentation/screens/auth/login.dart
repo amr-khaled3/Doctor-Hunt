@@ -1,8 +1,10 @@
 import 'package:doctor_hunt/core/app_theme/app_colors.dart';
+import 'package:doctor_hunt/core/router/app_route_name.dart';
 import 'package:doctor_hunt/core/widgets/Custom_btn.dart';
 import 'package:doctor_hunt/features/presentation/controller/auth/auth_cubit.dart';
 import 'package:doctor_hunt/features/presentation/controller/auth/auth_state.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +13,6 @@ import 'package:google_fonts/google_fonts.dart';
 class Login extends StatelessWidget {
   Login({super.key});
 
-  bool selected = false;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -33,267 +34,129 @@ class Login extends StatelessWidget {
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      Spacer(flex: 3),
-                      Text(
-                        "Welcome back",
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 24,
-                          color: Color(0xff000000),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Text(
-                        textAlign: TextAlign.center,
-                        "You can search course, apply course and find \nscholarship for abroad studies",
-                        style: GoogleFonts.rubik(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.labelColor,
-                        ),
-                      ),
-                      Spacer(flex: 2),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                    color: Colors.black12,
-                                  ),
-                                ],
-                              ),
-                              child: CupertinoButton(
-                                borderRadius: BorderRadius.circular(12),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                onPressed: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 7.0,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/icons/google.svg",
-                                        width: 18,
-                                        height: 18,
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        "Google",
-                                        style: GoogleFonts.rubik(
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 16,
-                                          color: AppColors.labelColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 127),
+                        Text(
+                          "Welcome back",
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 24,
+                            color: Color(0xff000000),
                           ),
-
-                          const SizedBox(width: 12),
-
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 8,
-                                    offset: const Offset(0, 2),
-                                    color: Colors.black12,
-                                  ),
-                                ],
-                              ),
-                              child: CupertinoButton(
-                                borderRadius: BorderRadius.circular(12),
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 16,
-                                ),
-                                onPressed: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 7,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        "assets/icons/facebook_icon.svg",
-                                        width: 19,
-                                        height: 19,
-                                        colorFilter: const ColorFilter.mode(
-                                          Color(0xff3B5998),
-                                          BlendMode.srcIn,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Text(
-                                        "Facebook",
-                                        style: GoogleFonts.rubik(
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 16,
-                                          color: AppColors.labelColor,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
+                        ),
+                        SizedBox(height: 15),
+                        Text(
+                          textAlign: TextAlign.center,
+                          "You can search course, apply course and find \nscholarship for abroad studies",
+                          style: GoogleFonts.rubik(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.labelColor,
                           ),
-                        ],
-                      ),
-                      Spacer(),
-                      Form(
-                        key: cubit.formKey,
-                        child: Column(
+                        ),
+                        SizedBox(height: 78),
+                        Row(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 1),
-                                    color: Colors.black12,
-                                  ),
-                                ],
-                              ),
-                              child: TextFormField(
-                                controller: cubit.emailController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter email";
-                                  } else if (!RegExp(
-                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                                  ).hasMatch(value)) {
-                                    return "Please enter valid email";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onTapOutside: (event) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 18,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                      color: Colors.black12,
                                     ),
+                                  ],
+                                ),
+                                child: CupertinoButton(
+                                  borderRadius: BorderRadius.circular(12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
                                   ),
-                                  hintText: "Email",
-                                  hintStyle: GoogleFonts.rubik(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
+                                  onPressed: () async {
+                                    await cubit.signInWithGoogle(context);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 7.0,
                                     ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
-                                    ),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.red,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "assets/icons/google.svg",
+                                          width: 18,
+                                          height: 18,
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          "Google",
+                                          style: GoogleFonts.rubik(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16,
+                                            color: AppColors.labelColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    offset: const Offset(0, 1),
-                                    color: Colors.black12,
-                                  ),
-                                ],
-                              ),
-                              child: TextFormField(
-                                controller: cubit.passwordController,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Please enter password";
-                                  } else if (value.length < 6) {
-                                    return "Password length must be at least 6 characters";
-                                  } else if (!RegExp(
-                                    r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                                  ).hasMatch(value)) {
-                                    return "password should contain at least one upper case, \n at least one lower case, at least one digit, \n at least one Special character and Must be at least 8 characters in length";
-                                  } else {
-                                    return null;
-                                  }
-                                },
-                                onTapOutside: (event) {
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                obscureText: !cubit.isVisible,
-                                decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 18,
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: const BorderSide(
-                                      color: Colors.red,
+
+                            const SizedBox(width: 12),
+
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 2),
+                                      color: Colors.black12,
                                     ),
+                                  ],
+                                ),
+                                child: CupertinoButton(
+                                  borderRadius: BorderRadius.circular(12),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
                                   ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
+                                  onPressed: () {},
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 7,
                                     ),
-                                  ),
-                                  hintText: "Password",
-                                  hintStyle: GoogleFonts.rubik(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () => cubit.onChangeVisibility(),
-                                    icon: cubit.isVisible ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
-                                    ),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: const Color(0x29677294),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          "assets/icons/facebook_icon.svg",
+                                          width: 19,
+                                          height: 19,
+                                          colorFilter: const ColorFilter.mode(
+                                            Color(0xff3B5998),
+                                            BlendMode.srcIn,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Text(
+                                          "Facebook",
+                                          style: GoogleFonts.rubik(
+                                            fontWeight: FontWeight.w300,
+                                            fontSize: 16,
+                                            color: AppColors.labelColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
@@ -301,43 +164,330 @@ class Login extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
-
-
-                      Spacer(flex: 1),
-                      CustomBtn(
-                        title: "Login",
-                        textSize: 18,
-
-                        onPress: () { cubit.login(context);}
-                      ),
-
-                      SizedBox(height: 19,),
-                      Text("Forgot password", style: GoogleFonts.rubik(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 15,
-                        color: AppColors.primaryColor,
-                      ),),
-                      Spacer(flex: 3),
-                      Text.rich(
-                        TextSpan(
-                          text: "Don’t have an account? ",
-                          children: [
-                            TextSpan(
-                              text: " Join us",
-                              // style:
-                              // recognizer:
-                            ),
-                          ],
+                        SizedBox(height: 37),
+                        Form(
+                          key: cubit.formKey,
+                          child: Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0, 1),
+                                      color: Colors.black12,
+                                    ),
+                                  ],
+                                ),
+                                child: TextFormField(
+                                  controller: cubit.emailController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Please enter email";
+                                    } else if (!RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                                    ).hasMatch(value)) {
+                                      return "Please enter valid email";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onTapOutside: (event) {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 18,
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                    hintText: "Email",
+                                    hintStyle: GoogleFonts.rubik(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      offset: const Offset(0, 1),
+                                      color: Colors.black12,
+                                    ),
+                                  ],
+                                ),
+                                child: TextFormField(
+                                  controller: cubit.passwordController,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Please enter password";
+                                    } else if (value.length < 6) {
+                                      return "Password length must be at least 6 characters";
+                                    } else if (!RegExp(
+                                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                                    ).hasMatch(value)) {
+                                      return "password should contain at least one upper case, \n at least one lower case, at least one digit, \n at least one Special character and Must be at least 8 characters in length";
+                                    } else {
+                                      return null;
+                                    }
+                                  },
+                                  onTapOutside: (event) {
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                  },
+                                  obscureText: !cubit.isVisible,
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 18,
+                                    ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                    hintText: "Password",
+                                    hintStyle: GoogleFonts.rubik(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w300,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: () =>
+                                          cubit.onChangeVisibility(),
+                                      icon: cubit.isVisible
+                                          ? Icon(Icons.visibility)
+                                          : Icon(Icons.visibility_off),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: const Color(0x29677294),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        style: GoogleFonts.rubik(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: AppColors.primaryColor,
+                        SizedBox(height: 32),
+                        CustomBtn(
+                          title: "Login",
+                          textSize: 18,
+
+                          onPress: () async {
+                            await cubit.login(context);
+                          },
+                          isLoading: cubit.isLoading,
                         ),
-                      ),
-                      Spacer(flex: 2),
-                    ],
+
+                        SizedBox(height: 19),
+                        Text.rich(
+                          TextSpan(
+                            text: "Forgot password",
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  showDragHandle: false,
+                                  isScrollControlled: true,
+                                  builder: (context) {
+                                    return BlocProvider.value(
+                                      value: cubit,
+                                      child: BlocBuilder<AuthCubit, AuthState>(
+                                        builder: (context, state) {
+                                          return SafeArea(
+                                            child: SizedBox(
+                                              width: double.infinity,
+                                              child: SingleChildScrollView(
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      width: 130,
+                                                      height: 5,
+                                                      margin: const EdgeInsets.only(top: 10),
+                                                      decoration: BoxDecoration(
+                                                        color: const Color(0xffC4C4C4),
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+
+                                                    const SizedBox(height: 55),
+
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                                        children: [
+                                                          Text(
+                                                            "Forgot password",
+                                                            style: GoogleFonts.rubik(
+                                                              color: Colors.black,
+                                                              fontSize: 24,
+                                                              fontWeight: FontWeight.w500,
+                                                            ),
+                                                          ),
+
+                                                          const SizedBox(height: 12),
+
+                                                          Text(
+                                                            "Enter your email for the verification proccesss,\n"
+                                                                "we will send 4 digits code to your email.",
+                                                            style: GoogleFonts.rubik(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w400,
+                                                              color: AppColors.labelColor,
+                                                            ),
+                                                          ),
+
+                                                          const SizedBox(height: 36),
+
+                                                          Form(
+                                                            key: cubit.forgetPasswordFormKey,
+                                                            child: TextFormField(
+                                                              controller: cubit.emailForgetPasswordController,
+                                                              validator: (value) {
+                                                                if (value == null || value.isEmpty) {
+                                                                  return "Please enter email";
+                                                                } else if (!RegExp(
+                                                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+                                                                ).hasMatch(value)) {
+                                                                  return "Please enter valid email";
+                                                                } else {
+                                                                  return null;
+                                                                }
+                                                              },
+                                                              onTapOutside: (event) {
+                                                                FocusManager.instance.primaryFocus
+                                                                    ?.unfocus();
+                                                              },
+                                                              decoration: InputDecoration(
+                                                                hintText: "Email",
+                                                                hintStyle: GoogleFonts.rubik(
+                                                                  color: AppColors.labelColor,
+                                                                  fontSize: 16,
+                                                                  fontWeight: FontWeight.w300,
+                                                                ),
+                                                                enabledBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(12),
+                                                                  borderSide: const BorderSide(
+                                                                    color: Color(0x29677294),
+                                                                  ),
+                                                                ),
+                                                                focusedBorder: OutlineInputBorder(
+                                                                  borderRadius: BorderRadius.circular(12),
+                                                                  borderSide: const BorderSide(
+                                                                    color: Color(0x29677294),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+
+                                                          const SizedBox(height: 30),
+
+                                                          CustomBtn(
+                                                            title: "Continue",
+                                                            textSize: 18,
+                                                            onPress: () async{
+                                                              await cubit.sendPasswordResetEmail(context);
+                                                            },
+                                                            isLoading: cubit.isLoading,
+                                                          ),
+
+                                                          const SizedBox(height: 50),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                          ),
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        SizedBox(height: 130),
+                        Text.rich(
+                          TextSpan(
+                            text: "Don’t have an account? ",
+                            children: [
+                              TextSpan(
+                                text: " Join us",
+                                // style:
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      RouteName.register,
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
+                          style: GoogleFonts.rubik(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        SizedBox(height: 46),
+                      ],
+                    ),
                   ),
                 ),
               ),

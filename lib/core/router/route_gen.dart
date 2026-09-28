@@ -1,4 +1,5 @@
 import 'package:doctor_hunt/core/router/app_route_name.dart';
+import 'package:doctor_hunt/features/presentation/screens/auth/register.dart';
 import 'package:doctor_hunt/features/presentation/screens/onboarding/onboarding.dart';
 import 'package:doctor_hunt/features/presentation/screens/role/role.dart';
 import 'package:flutter/cupertino.dart';
@@ -44,6 +45,12 @@ class RouteGen {
             transitionDuration: Duration(seconds: 2),
             pageBuilder: (context, animation, secondaryAnimation) {
               return Login();
+            }
+        );
+      case RouteName.register:
+        return PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) {
+              return Register();
             }
         );
       default:

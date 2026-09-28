@@ -16,3 +16,11 @@ class ChangeAgreeState extends AuthState{}
 class LoginFailureState extends AuthState{}
 
 class LoginSuccessState extends AuthState{}
+
+class LoginLoadingState extends AuthState{}
+
+class ForgotPasswordLoadingState extends AuthState {}
+
+class ForgotPasswordSuccessState extends AuthState {}
+
+class ForgotPasswordFailureState extends AuthState {}
