@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../../i18n/strings.g.dart';
+import '../../widgets/role/role_card.dart';
+
+enum RoleType { patient, admin }
+
 class Role extends StatefulWidget {
   const Role({super.key});
 
@@ -12,14 +17,12 @@ class Role extends StatefulWidget {
 }
 
 class _RoleState extends State<Role> {
-  String? selectedRole;
+  RoleType? selectedRole;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
-
-    final double checkSize = (size.width * 0.06).clamp(20.0, 28.0);
-    final double cardRadius = (size.width * 0.05).clamp(16.0, 20.0);
+    final text = context.t.chooseRole;
 
     return Scaffold(
       body: Container(
@@ -42,7 +45,6 @@ class _RoleState extends State<Role> {
                   tag: 'logo',
                   child: Image.asset("assets/logos/app_logo.png"),
                 ),
-
                 Hero(
                   tag: 'title',
                   child: Text(
@@ -54,213 +56,54 @@ class _RoleState extends State<Role> {
                     ),
                   ),
                 ),
-
                 const Spacer(),
-
                 Text(
-                  "Choose your role",
+                  text.title,
                   style: GoogleFonts.plusJakartaSans(
                     fontWeight: FontWeight.w400,
                     fontSize: (size.width * 0.07).clamp(24.0, 28.0),
                     color: const Color(0xff17202A),
                   ),
                 ),
-
                 Text(
+                  text.subtitle,
                   textAlign: TextAlign.center,
-                  "The selected role determines the experience and \navailable features.",
                   style: GoogleFonts.plusJakartaSans(
-                    fontSize: (size.width * 0.035).clamp(12.0, 14.0),
-                    fontWeight: FontWeight.w400,
+                    fontSize: (size.width * 0.055).clamp(12.0, 14.0),
+                    fontWeight: FontWeight.w500,
                     color: const Color(0xff7B8490),
                   ),
                 ),
-
                 const Spacer(),
-
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      selectedRole = "patient";
-                    });
-                  },
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(
-                          (size.width * 0.04).clamp(12.0, 16.0),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(cardRadius),
-                          border: Border.all(
-                            width: 1.75,
-                            color: selectedRole == "patient"
-                                ? const Color(0xff006C49)
-                                : const Color(0xff7B8490),
-                          ),
-                          color: selectedRole == "patient"
-                              ? const Color(0x4dd5e6e1)
-                              : const Color(0xffFAFCFB),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: (size.width * 0.06).clamp(20.0, 24.0),
-                            vertical: (size.height * 0.025).clamp(18.0, 24.0),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icons/Patient_icon.svg",
-                                width: (size.width * 0.12).clamp(36.0, 48.0),
-                              ),
-
-                              const SizedBox(width: 12),
-
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Patient",
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: (size.width * 0.05)
-                                            .clamp(18.0, 20.0),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      "Find doctors, book\nappointments,\nand manage your medical\nrecords.",
-                                      softWrap: true,
-                                      textAlign: TextAlign.start,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: (size.width * 0.035)
-                                            .clamp(12.0, 14.0),
-                                        color: const Color(0xff7B8490),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      if (selectedRole == "patient")
-                        Positioned(
-                          top: (size.width * 0.035).clamp(10.0, 16.0),
-                          right: (size.width * 0.035).clamp(10.0, 16.0),
-                          child: Icon(
-                            Icons.check_circle,
-                            size: checkSize,
-                            color: const Color(0xff006C49),
-                          ),
-                        ),
-                    ],
-                  ),
+                RoleCard(
+                  iconPath: "assets/icons/Patient_icon.svg",
+                  title: text.patient.title,
+                  description: text.patient.description,
+                  isSelected: selectedRole == RoleType.patient,
+                  onTap: () => setState(() => selectedRole = RoleType.patient),
                 ),
-
                 SizedBox(height: size.height * 0.02),
-
-                InkWell(
-                  enableFeedback: false,
-                  onTap: () {
-                    setState(() {
-                      selectedRole = "admin";
-                    });
-                  },
-                  child: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(
-                          (size.width * 0.04).clamp(12.0, 16.0),
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(cardRadius),
-                          border: Border.all(
-                            width: 1.75,
-                            color: selectedRole == "admin"
-                                ? const Color(0xff006C49)
-                                : const Color(0xff7B8490),
-                          ),
-                          color: selectedRole == "admin"
-                              ? const Color(0x4dd5e6e1)
-                              : const Color(0xffFAFCFB),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: (size.width * 0.06).clamp(20.0, 24.0),
-                            vertical: (size.height * 0.025).clamp(18.0, 24.0),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                "assets/icons/Admin_icon.svg",
-                                width: (size.width * 0.12).clamp(36.0, 48.0),
-                              ),
-
-                              const SizedBox(width: 12),
-
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Admin",
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: (size.width * 0.05)
-                                            .clamp(18.0, 20.0),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-
-                                    Text(
-                                      "Manage doctors, appointments, users, and the platform.",
-                                      softWrap: true,
-                                      textAlign: TextAlign.start,
-                                      style: GoogleFonts.plusJakartaSans(
-                                        fontSize: (size.width * 0.035)
-                                            .clamp(12.0, 14.0),
-                                        color: const Color(0xff7B8490),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      if (selectedRole == "admin")
-                        Positioned(
-                          top: (size.width * 0.035).clamp(10.0, 16.0),
-                          right: (size.width * 0.035).clamp(10.0, 16.0),
-                          child: Icon(
-                            Icons.check_circle,
-                            size: checkSize,
-                            color: const Color(0xff006C49),
-                          ),
-                        ),
-                    ],
-                  ),
+                RoleCard(
+                  iconPath: "assets/icons/Admin_icon.svg",
+                  title: text.admin.title,
+                  description: text.admin.description,
+                  isSelected: selectedRole == RoleType.admin,
+                  onTap: () => setState(() => selectedRole = RoleType.admin),
                 ),
-
                 const Spacer(flex: 2),
-
                 CustomBtn(
-                  title: "Continue",
+                  title: text.continueButton,
                   textSize: size.width * 0.045,
                   onPress: selectedRole == null
                       ? null
                       : () {
-                    Navigator.pushReplacementNamed(context, RouteName.login);
-                  },
+                          Navigator.pushReplacementNamed(
+                            context,
+                            RouteName.login,
+                            arguments: selectedRole, // role is now passed on
+                          );
+                        },
                 ),
-
                 const Spacer(),
               ],
             ),

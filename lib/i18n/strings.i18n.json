@@ -1,0 +1,56 @@
+{
+
+  "chooseRole": {
+    "title": "Choose your role",
+    "subtitle": "The selected role determines the experience and available features.",
+    "patient": {
+      "title": "Patient",
+      "description": "Find doctors, book appointments, and manage your medical records."
+    },
+    "admin": {
+      "title": "Admin",
+      "description": "Manage doctors, appointments, users, and the platform."
+    },
+    "continueButton": "Continue"
+  },
+  "auth": {
+    "signUp": {
+      "title": "Join us to start searching",
+      "subtitle": "You can search course, apply course and find scholarship for abroad studies",
+      "name": "Name",
+      "enterName": "Please enter name",
+      "email": "Email",
+      "enterEmail": "Please enter email",
+      "enterValidEmail": "Please enter valid email",
+      "password": "Password",
+      "enterPassword": "Please enter password",
+      "passwordMinLength": "Password length must be at least 6 characters",
+      "passwordRules": "password should contain at least one upper case,\n at least one lower case, at least one digit,\n at least one Special character and Must be at least 8 characters in length",
+      "agreeTerms": "I agree with the Terms of Service & Privacy Policy",
+      "button": "Sign up",
+      "haveAccount": "Have an account?",
+      "logIn": "Log in"
+    },
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "You can search course, apply course and find scholarship for abroad studies",
+      "button": "Login",
+      "forgotPassword": "Forgot password",
+      "noAccount": "Don't have an account?",
+      "joinUs": "Join us",
+      "email": "Email",
+      "password": "Password",
+      "verificationDescription": "Enter your email for the verification proccesss,\nwe will send 4 digits code to your email.",
+      "enterEmail": "Please enter email",
+      "continue": "Continue",
+      "enterValidEmail": "Please enter valid email",
+      "enterPassword": "Please enter password",
+      "passwordRules": "password should contain at least one upper case,\n at least one lower case, at least one digit,\n at least one Special character and Must be at least 8 characters in length",
+      "passwordMinLength": "Password length must be at least 6 characters"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "description": "Enter your email for the verification process, we will send 4 digits code to your email."
+    }
+  }
+}

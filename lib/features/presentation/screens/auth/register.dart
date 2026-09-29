@@ -8,13 +8,16 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../i18n/strings.g.dart';
 
 class Register extends StatelessWidget {
   Register({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final text = context.t.auth.signUp;
+    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -37,26 +40,15 @@ class Register extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        SizedBox(height: 152,),
-                        Text(
-                          "Join us to start searching",
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
-                            color: Color(0xff000000),
-                          ),
-                        ),
+                        SizedBox(height: 152),
+                        Text(text.title, style: theme.textTheme.titleMedium),
                         SizedBox(height: 15),
                         Text(
                           textAlign: TextAlign.center,
-                          "You can search course, apply course and find\nscholarship for abroad studies",
-                          style: GoogleFonts.rubik(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.labelColor,
-                          ),
+                          text.subtitle,
+                          style: theme.textTheme.bodySmall,
                         ),
-                        SizedBox(height: 67,),
+                        SizedBox(height: 67),
                         Row(
                           children: [
                             Expanded(
@@ -77,16 +69,16 @@ class Register extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 16,
                                   ),
-                                  onPressed: () async{
+                                  onPressed: () async {
                                     await cubit.signInWithGoogle(context);
-                    
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                       vertical: 7.0,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(
                                           "assets/icons/google.svg",
@@ -96,11 +88,7 @@ class Register extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Text(
                                           "Google",
-                                          style: GoogleFonts.rubik(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16,
-                                            color: AppColors.labelColor,
-                                          ),
+                                          style: theme.textTheme.labelMedium,
                                         ),
                                       ],
                                     ),
@@ -108,9 +96,9 @@ class Register extends StatelessWidget {
                                 ),
                               ),
                             ),
-                    
+
                             const SizedBox(width: 12),
-                    
+
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
@@ -135,7 +123,8 @@ class Register extends StatelessWidget {
                                       vertical: 7,
                                     ),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         SvgPicture.asset(
                                           "assets/icons/facebook_icon.svg",
@@ -149,11 +138,7 @@ class Register extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Text(
                                           "Facebook",
-                                          style: GoogleFonts.rubik(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16,
-                                            color: AppColors.labelColor,
-                                          ),
+                                          style: theme.textTheme.labelMedium,
                                         ),
                                       ],
                                     ),
@@ -163,7 +148,7 @@ class Register extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(height: 34,),
+                        SizedBox(height: 34),
                         Form(
                           key: cubit.formKey,
                           child: Column(
@@ -183,42 +168,17 @@ class Register extends StatelessWidget {
                                   controller: cubit.nameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please enter name";
+                                      return text.enterName;
                                     } else {
                                       return null;
                                     }
                                   },
                                   onTapOutside: (event) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 18,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    hintText: "Name",
-                                    hintStyle: GoogleFonts.rubik(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
+                                    hintText: text.name,
                                   ),
                                 ),
                               ),
@@ -238,52 +198,21 @@ class Register extends StatelessWidget {
                                   controller: cubit.emailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please enter email";
+                                      return text.enterEmail;
                                     } else if (!RegExp(
                                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                                     ).hasMatch(value)) {
-                                      return "Please enter valid email";
+                                      return text.enterValidEmail;
                                     } else {
                                       return null;
                                     }
                                   },
                                   onTapOutside: (event) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 18,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    hintText: "Email",
-                                    hintStyle: GoogleFonts.rubik(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                      ),
-                                    ),
+                                    hintText: text.email,
                                   ),
                                 ),
                               ),
@@ -303,123 +232,88 @@ class Register extends StatelessWidget {
                                   controller: cubit.passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please enter password";
+                                      return text.enterPassword;
                                     } else if (value.length < 6) {
-                                      return "Password length must be at least 6 characters";
+                                      return text.passwordMinLength;
                                     } else if (!RegExp(
                                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                                     ).hasMatch(value)) {
-                                      return "password should contain at least one upper case, \n at least one lower case, at least one digit, \n at least one Special character and Must be at least 8 characters in length";
+                                      return text.passwordRules;
                                     } else {
                                       return null;
                                     }
                                   },
                                   onTapOutside: (event) {
-                                    FocusManager.instance.primaryFocus?.unfocus();
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
                                   },
                                   obscureText: !cubit.isVisible,
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 18,
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    hintText: "Password",
-                                    hintStyle: GoogleFonts.rubik(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () => cubit.onChangeVisibility(),
-                                      icon: cubit.isVisible ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
+                                    hintText: text.password,
                                   ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                    
+
                         Row(
                           children: [
-                            Radio<bool>(
-                              toggleable: true,
-                              fillColor: WidgetStateProperty.fromMap(
-                                <WidgetStatesConstraint, Color>{
-                                  WidgetState.selected: Colors.blue,
-                                  WidgetState.disabled: Colors.grey.shade900,
-                                },
-                              ),
-                              value: true,
+                            RadioGroup<bool>(
                               groupValue: cubit.isAgree ? true : null,
                               onChanged: (value) {
                                 cubit.onChangeAgree();
                               },
+                              child: Radio<bool>(
+                                toggleable: true,
+                                value: true,
+                                fillColor: WidgetStateProperty.fromMap(
+                                  <WidgetStatesConstraint, Color>{
+                                    WidgetState.selected: Colors.blue,
+                                    WidgetState.disabled: Colors.grey.shade900,
+                                  },
+                                ),
+                              ),
                             ),
                             Text(
-                              "I agree with the Terms of Service & Privacy Policy",
-                              style: GoogleFonts.rubik(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 12,
-                                color: Color(0xff677294),
-                              ),
+                              text.agreeTerms,
+                              style: theme.textTheme.labelSmall,
                             ),
                           ],
                         ),
-                        SizedBox(height: 54,),
+                        SizedBox(height: 54),
                         CustomBtn(
-                          title: "Sign up",
+                          title: text.button,
                           textSize: 18,
-                    
-                          onPress: cubit.isAgree ?  () async{
-                            await cubit.createAccount(context);
-                          } : null,
+
+                          onPress: cubit.isAgree
+                              ? () async {
+                                  await cubit.createAccount(context);
+                                }
+                              : null,
                           isLoading: cubit.isLoading,
                         ),
                         SizedBox(height: 17),
                         Text.rich(
                           TextSpan(
-                            text: "Have an account? ",
+                            text: text.haveAccount,
                             children: [
                               TextSpan(
-                                text: " Log in",
+                                text: text.logIn,
                                 // style:
-                                recognizer: TapGestureRecognizer()..onTap = (){
-                                  Navigator.pushReplacementNamed(context, RouteName.login);
-                                }
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      RouteName.login,
+                                    );
+                                  },
                               ),
                             ],
                           ),
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: AppColors.primaryColor,
-                          ),
+                          style: theme.textTheme.labelLarge,
                         ),
-                        SizedBox(height: 46,)
+                        SizedBox(height: 46),
                       ],
                     ),
                   ),

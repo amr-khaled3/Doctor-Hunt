@@ -1,4 +1,3 @@
-import 'package:doctor_hunt/core/app_theme/app_colors.dart';
 import 'package:doctor_hunt/core/router/app_route_name.dart';
 import 'package:doctor_hunt/core/widgets/Custom_btn.dart';
 import 'package:doctor_hunt/features/presentation/controller/auth/auth_cubit.dart';
@@ -8,13 +7,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import '../../../../i18n/strings.g.dart';
+import 'forget_password.dart';
 
 class Login extends StatelessWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final text = context.t.auth.login;
+    final theme = Theme.of(context);
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: BlocBuilder<AuthCubit, AuthState>(
@@ -38,23 +41,12 @@ class Login extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 127),
-                        Text(
-                          "Welcome back",
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
-                            color: Color(0xff000000),
-                          ),
-                        ),
+                        Text(text.title, style: theme.textTheme.titleMedium),
                         SizedBox(height: 15),
                         Text(
                           textAlign: TextAlign.center,
-                          "You can search course, apply course and find \nscholarship for abroad studies",
-                          style: GoogleFonts.rubik(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: AppColors.labelColor,
-                          ),
+                          text.subtitle,
+                          style: theme.textTheme.bodySmall,
                         ),
                         SizedBox(height: 78),
                         Row(
@@ -96,11 +88,7 @@ class Login extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Text(
                                           "Google",
-                                          style: GoogleFonts.rubik(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16,
-                                            color: AppColors.labelColor,
-                                          ),
+                                          style: theme.textTheme.labelMedium,
                                         ),
                                       ],
                                     ),
@@ -150,11 +138,7 @@ class Login extends StatelessWidget {
                                         const SizedBox(width: 10),
                                         Text(
                                           "Facebook",
-                                          style: GoogleFonts.rubik(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 16,
-                                            color: AppColors.labelColor,
-                                          ),
+                                          style: theme.textTheme.labelMedium,
                                         ),
                                       ],
                                     ),
@@ -184,11 +168,11 @@ class Login extends StatelessWidget {
                                   controller: cubit.emailController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please enter email";
+                                      return text.enterEmail;
                                     } else if (!RegExp(
                                       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
                                     ).hasMatch(value)) {
-                                      return "Please enter valid email";
+                                      return text.enterValidEmail;
                                     } else {
                                       return null;
                                     }
@@ -198,39 +182,7 @@ class Login extends StatelessWidget {
                                         ?.unfocus();
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 18,
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    hintText: "Email",
-                                    hintStyle: GoogleFonts.rubik(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                      ),
-                                    ),
+                                    hintText: text.email,
                                   ),
                                 ),
                               ),
@@ -250,13 +202,13 @@ class Login extends StatelessWidget {
                                   controller: cubit.passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return "Please enter password";
+                                      return text.enterPassword;
                                     } else if (value.length < 6) {
-                                      return "Password length must be at least 6 characters";
+                                      return text.passwordMinLength;
                                     } else if (!RegExp(
                                       r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
                                     ).hasMatch(value)) {
-                                      return "password should contain at least one upper case, \n at least one lower case, at least one digit, \n at least one Special character and Must be at least 8 characters in length";
+                                      return text.passwordRules;
                                     } else {
                                       return null;
                                     }
@@ -267,46 +219,7 @@ class Login extends StatelessWidget {
                                   },
                                   obscureText: !cubit.isVisible,
                                   decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                      vertical: 18,
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: const BorderSide(
-                                        color: Colors.red,
-                                      ),
-                                    ),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    hintText: "Password",
-                                    hintStyle: GoogleFonts.rubik(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () =>
-                                          cubit.onChangeVisibility(),
-                                      icon: cubit.isVisible
-                                          ? Icon(Icons.visibility)
-                                          : Icon(Icons.visibility_off),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(12),
-                                      borderSide: BorderSide(
-                                        color: const Color(0x29677294),
-                                      ),
-                                    ),
+                                    hintText: text.password,
                                   ),
                                 ),
                               ),
@@ -315,7 +228,7 @@ class Login extends StatelessWidget {
                         ),
                         SizedBox(height: 32),
                         CustomBtn(
-                          title: "Login",
+                          title: text.button,
                           textSize: 18,
 
                           onPress: () async {
@@ -327,7 +240,7 @@ class Login extends StatelessWidget {
                         SizedBox(height: 19),
                         Text.rich(
                           TextSpan(
-                            text: "Forgot password",
+                            text: text.forgotPassword,
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 showModalBottomSheet(
@@ -341,112 +254,7 @@ class Login extends StatelessWidget {
                                       child: BlocBuilder<AuthCubit, AuthState>(
                                         builder: (context, state) {
                                           return SafeArea(
-                                            child: SizedBox(
-                                              width: double.infinity,
-                                              child: SingleChildScrollView(
-                                                child: Column(
-                                                  children: [
-                                                    Container(
-                                                      width: 130,
-                                                      height: 5,
-                                                      margin: const EdgeInsets.only(top: 10),
-                                                      decoration: BoxDecoration(
-                                                        color: const Color(0xffC4C4C4),
-                                                        borderRadius: BorderRadius.circular(10),
-                                                      ),
-                                                    ),
-
-                                                    const SizedBox(height: 55),
-
-                                                    Padding(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                                        children: [
-                                                          Text(
-                                                            "Forgot password",
-                                                            style: GoogleFonts.rubik(
-                                                              color: Colors.black,
-                                                              fontSize: 24,
-                                                              fontWeight: FontWeight.w500,
-                                                            ),
-                                                          ),
-
-                                                          const SizedBox(height: 12),
-
-                                                          Text(
-                                                            "Enter your email for the verification proccesss,\n"
-                                                                "we will send 4 digits code to your email.",
-                                                            style: GoogleFonts.rubik(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w400,
-                                                              color: AppColors.labelColor,
-                                                            ),
-                                                          ),
-
-                                                          const SizedBox(height: 36),
-
-                                                          Form(
-                                                            key: cubit.forgetPasswordFormKey,
-                                                            child: TextFormField(
-                                                              controller: cubit.emailForgetPasswordController,
-                                                              validator: (value) {
-                                                                if (value == null || value.isEmpty) {
-                                                                  return "Please enter email";
-                                                                } else if (!RegExp(
-                                                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-                                                                ).hasMatch(value)) {
-                                                                  return "Please enter valid email";
-                                                                } else {
-                                                                  return null;
-                                                                }
-                                                              },
-                                                              onTapOutside: (event) {
-                                                                FocusManager.instance.primaryFocus
-                                                                    ?.unfocus();
-                                                              },
-                                                              decoration: InputDecoration(
-                                                                hintText: "Email",
-                                                                hintStyle: GoogleFonts.rubik(
-                                                                  color: AppColors.labelColor,
-                                                                  fontSize: 16,
-                                                                  fontWeight: FontWeight.w300,
-                                                                ),
-                                                                enabledBorder: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  borderSide: const BorderSide(
-                                                                    color: Color(0x29677294),
-                                                                  ),
-                                                                ),
-                                                                focusedBorder: OutlineInputBorder(
-                                                                  borderRadius: BorderRadius.circular(12),
-                                                                  borderSide: const BorderSide(
-                                                                    color: Color(0x29677294),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-
-                                                          const SizedBox(height: 30),
-
-                                                          CustomBtn(
-                                                            title: "Continue",
-                                                            textSize: 18,
-                                                            onPress: () async{
-                                                              await cubit.sendPasswordResetEmail(context);
-                                                            },
-                                                            isLoading: cubit.isLoading,
-                                                          ),
-
-                                                          const SizedBox(height: 50),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
+                                            child: ForgotPasswordSheet(),
                                           );
                                         },
                                       ),
@@ -455,19 +263,15 @@ class Login extends StatelessWidget {
                                 );
                               },
                           ),
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: AppColors.primaryColor,
-                          ),
+                          style: theme.textTheme.labelLarge,
                         ),
                         SizedBox(height: 130),
                         Text.rich(
                           TextSpan(
-                            text: "Don’t have an account? ",
+                            text: text.noAccount,
                             children: [
                               TextSpan(
-                                text: " Join us",
+                                text: text.joinUs,
                                 // style:
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
@@ -479,11 +283,7 @@ class Login extends StatelessWidget {
                               ),
                             ],
                           ),
-                          style: GoogleFonts.rubik(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: AppColors.primaryColor,
-                          ),
+                          style: theme.textTheme.labelLarge,
                         ),
                         SizedBox(height: 46),
                       ],

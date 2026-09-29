@@ -1,12 +1,15 @@
+import 'package:doctor_hunt/core/app_theme/app_theme.dart';
 import 'package:doctor_hunt/core/router/route_gen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
-
+import 'i18n/strings.g.dart';
 import 'firebase_options.dart';
+
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -101,7 +104,11 @@ void main() async {
     serverClientId:
         '732956198356-jusovl2v1h9sfpp8gl0e3kr3ijuivbvi.apps.googleusercontent.com',
   );
-  runApp(const DoctorHunt());
+
+  LocaleSettings.setLocale(AppLocale.ar);
+
+
+  runApp(TranslationProvider(child: const DoctorHunt()));
 }
 
 class DoctorHunt extends StatefulWidget {
@@ -123,7 +130,12 @@ class _DoctorHuntState extends State<DoctorHunt> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       onGenerateRoute: RouteGen.onChaneRoute,
+      theme: AppTheme.lightTheme,
+      themeMode: ThemeMode.light,
     );
   }
 }
