@@ -4,4 +4,5 @@ class RouteName{
   static const String role = "role";
   static const String login = "login";
   static const String register = "register";
+  static const String doctorList = "doctor-list";
 }

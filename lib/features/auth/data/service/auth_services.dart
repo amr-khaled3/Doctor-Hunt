@@ -90,7 +90,7 @@ class AuthServices {
       await _saveFcmToken(userCredential.user);
       return userCredential;
     } catch (e) {
-      log(e.toString());
+      log('signInWithGoogle error: $e');
       rethrow;
     }
   }

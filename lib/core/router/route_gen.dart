@@ -1,4 +1,5 @@
 import 'package:doctor_hunt/core/router/app_route_name.dart';
+import 'package:doctor_hunt/features/presentation/screens/admin/doctor_list.dart';
 import 'package:doctor_hunt/features/presentation/screens/auth/register.dart';
 import 'package:doctor_hunt/features/presentation/screens/onboarding/onboarding.dart';
 import 'package:doctor_hunt/features/presentation/screens/role/role.dart';
@@ -51,6 +52,13 @@ class RouteGen {
         return PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
               return Register();
+            }
+        );
+
+      case RouteName.doctorList:
+        return PageRouteBuilder(
+            pageBuilder:(context, animation, secondaryAnimation) {
+              return DoctorList();
             }
         );
       default:

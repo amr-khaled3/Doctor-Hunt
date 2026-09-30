@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../models/user_model.dart';
 import '../service/auth_services.dart';
@@ -38,22 +41,32 @@ class AuthRepo {
     try {
       final user = await _authService.signInWithGoogle();
 
-      if (user != null) {
+      if (user != null && user.user != null) {
         final userModel = UserModel(
           uid: user.user!.uid,
           name: user.user!.displayName ?? '',
           email: user.user!.email ?? '',
         );
-        return {'success': true, 'user': "Welcome ${userModel.name}"};
+        return {'success': true, 'message': 'Welcome ${userModel.name}'};
       }
       return {'success': false, 'message': 'Something wrong, please try again'};
+    } on GoogleSignInException catch (e) {
+      log('GoogleSignInException: ${e.code}');
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return {'success': false, 'message': 'Sign in was cancelled'};
+      }
+      return {'success': false, 'message': 'Google sign-in failed, please try again'};
     } on FirebaseAuthException catch (e) {
-      return {'success': false, 'message': 'Something wrong, please try again'};
+      log('FirebaseAuthException: ${e.code} - ${e.message}');
+      return {
+        'success': false,
+        'message': e.message ?? 'Something wrong, please try again',
+      };
     } catch (e) {
-      return {'success': false, 'message': 'Something wrong, please try again' };
+      log('Unknown error: $e');
+      return {'success': false, 'message': 'Something wrong, please try again'};
     }
   }
-
 
   Future<Map<String, dynamic>> login({
     required String email,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doctor_hunt/core/app_theme/app_theme.dart';
 import 'package:doctor_hunt/core/router/route_gen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'core/router/app_route_name.dart';
 import 'i18n/strings.g.dart';
 import 'firebase_options.dart';
 
@@ -92,21 +95,13 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await setupFlutterNotifications();
-  var per = await Permission.notification.isDenied;
-  if(per){
-    await Permission.notification.request();
-  }
-
-  // String? token = await FirebaseMessaging.instance.getToken();
-  // print(token);
 
   await GoogleSignIn.instance.initialize(
     serverClientId:
-        '732956198356-jusovl2v1h9sfpp8gl0e3kr3ijuivbvi.apps.googleusercontent.com',
+    '732956198356-jusovl2v1h9sfpp8gl0e3kr3ijuivbvi.apps.googleusercontent.com',
   );
 
-  LocaleSettings.setLocale(AppLocale.ar);
-
+  LocaleSettings.setLocale(AppLocale.en);
 
   runApp(TranslationProvider(child: const DoctorHunt()));
 }
@@ -119,13 +114,27 @@ class DoctorHunt extends StatefulWidget {
 }
 
 class _DoctorHuntState extends State<DoctorHunt> {
+  StreamSubscription<RemoteMessage>? _messageSub;
+
   @override
   void initState() {
-    FirebaseMessaging.onMessage.listen(showFlutterNotification);
     super.initState();
+    _messageSub = FirebaseMessaging.onMessage.listen(showFlutterNotification);
+    _requestNotificationPermission();
   }
 
-  // This widget is the root of your application.
+  Future<void> _requestNotificationPermission() async {
+    if (await Permission.notification.isDenied) {
+      await Permission.notification.request();
+    }
+  }
+
+  @override
+  void dispose() {
+    _messageSub?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -133,6 +142,7 @@ class _DoctorHuntState extends State<DoctorHunt> {
       locale: TranslationProvider.of(context).flutterLocale,
       supportedLocales: AppLocaleUtils.supportedLocales,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
+      initialRoute: RouteName.splash,
       onGenerateRoute: RouteGen.onChaneRoute,
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,

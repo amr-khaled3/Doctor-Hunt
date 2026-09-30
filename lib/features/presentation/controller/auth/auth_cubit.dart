@@ -74,6 +74,7 @@ class AuthCubit extends Cubit<AuthState>{
     if (data['success'] == true) {
       AppDialogs.showMessage(data['message'], context);
       emit(LoginSuccessState());
+      Navigator.pushReplacementNamed(context, RouteName.doctorList);
     } else {
       AppDialogs.showMessage(data['message'], context, type: DialogType.error);
       emit(LoginFailureState());
@@ -90,7 +91,9 @@ class AuthCubit extends Cubit<AuthState>{
     if (isClosed || !context.mounted) return;
 
     if (data['success'] == true) {
+      AppDialogs.showMessage(data['message'], context, type: DialogType.success);
       emit(RegisterSuccessState());
+      Navigator.pushReplacementNamed(context, RouteName.doctorList);
     } else {
       AppDialogs.showMessage(data['message'], context, type: DialogType.error);
       emit(RegisterFailureState());

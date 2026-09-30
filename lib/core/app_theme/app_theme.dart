@@ -6,6 +6,12 @@ import 'app_colors.dart';
 abstract class AppTheme {
 
   static final ThemeData lightTheme = ThemeData(
+
+    scaffoldBackgroundColor: Color(0xffF8FAF9),
+
+    appBarTheme: AppBarTheme(
+      backgroundColor: Color(0xffF8FAF9),
+    ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -59,7 +65,13 @@ abstract class AppTheme {
         color: Color(0xff000000),
       ),
 
-      // labelMedium:
+      titleSmall: GoogleFonts.rubik(
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+        color: AppColors.textPrimary,
+
+      )
+      ,
 
     bodySmall: GoogleFonts.rubik(
       fontSize: 14,
@@ -84,7 +96,16 @@ abstract class AppTheme {
       fontSize: 12,
       color: Color(0xff677294),
     ),
-  )
+  ),
+
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: AppColors.primaryColor,
+      unselectedItemColor: AppColors.slate400,
+      elevation: 8,
+    ),
+
   );
 
 }

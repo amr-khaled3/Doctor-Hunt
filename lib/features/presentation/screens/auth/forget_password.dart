@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../core/app_theme/app_colors.dart';
 import '../../../../core/widgets/Custom_btn.dart';
 import '../../../../i18n/strings.g.dart';
 import '../../controller/auth/auth_cubit.dart';
